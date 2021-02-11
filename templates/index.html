@@ -1,0 +1,92 @@
+{% extends '_layout.html' %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block title %}
+LED Box
+{% endblock %}
+
+
+
+{% block body %}
+
+<div class="row">
+	<div class="col-md-12 col-12">
+		{% for p in model.plugins: %}
+			<button class="ms-btn action-button {{p[3]}}" data-action="{{p[0]}}">{{p[2]}}</button>
+		{% endfor %}
+
+		<!--<button class="ms-btn ms-info" id="menu-button">Menu</button>
+		<button class="ms-btn action-button" data-action="snake">Snake</button>
+		<button class="ms-btn action-button" data-action="pong">Pong</button>
+		<button class="ms-btn action-button" data-action="connect4">Connect4</button>
+		<button class="ms-btn action-button" data-action="clock">Clock</button>
+		<button class="ms-btn action-button" data-action="matrix">Matrix</button>
+		<button class="ms-btn action-button" data-action="plasma">Plasma</button>
+		<button class="ms-btn action-button" data-action="fire">Fire</button>
+		<button class="ms-btn action-button" data-action="sparkles">Sparkles</button>
+		<button class="ms-btn action-button" data-action="xmas">X-mas</button>
+		<button class="ms-btn action-button" data-action="tetris">Tetris</button>
+		<button class="ms-btn action-button" data-action="gol">Game Of Life</button>-->
+		<button class="ms-btn ms-danger special-button" data-action="off">Off</button>
+		<button class="ms-btn ms-danger special-button" data-action="shutdown">Shutdown</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12">
+		<div class="ms-alert ms-outline-success info-block">
+    	
+    	</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-1 col-1 spacer-one">&nbsp;</div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-3"></div>
+	<div class="col-md-6 col-6 center-button">
+		<button class="ms-btn arrow-button ms-default" data-arrow="up">Up</button>
+	</div>
+	<div class="col-md-3 col-3"></div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-1"></div>
+	<div class="col-md-3 col-5 center-button">
+		<button class="ms-btn arrow-button ms-default" data-arrow="left">Left</button>
+	</div>
+	<div class="col-md-3 col-5 center-button">
+		<button class="ms-btn arrow-button ms-default" data-arrow="right">Right</button>
+	</div>
+	<div class="col-md-3 col-1"></div>
+</div>
+
+<div class="row">
+	<div class="col-md-3 col-3"></div>
+	<div class="col-md-6 col-6 center-button">
+		<button class="ms-btn arrow-button ms-default" data-arrow="down">Down</button>
+	</div>
+	<div class="col-md-3 col-3"></div>
+</div>
+
+{% endblock %}
+
+
+
+{% block javascript %}
+
+<script>
+	$(function(){
+		LedBox.init();
+	});
+</script>
+
+{% endblock %}
