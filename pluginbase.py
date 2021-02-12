@@ -13,33 +13,19 @@ class PluginBase(ABC):
         self.ledbox = ledbox
 
     @abc.abstractproperty 
-    def order(self) -> int: 
-        return 1000
-
-    @abc.abstractproperty 
-    def need_arrows(self) -> bool: 
-        return False
-
-    @abc.abstractproperty 
-    def show_button(self) -> bool: 
-        return False
-
-    @abc.abstractproperty 
     def name(self) -> str: 
         return None
 
     @abc.abstractproperty 
-    def display_name(self) -> str: 
-        return None
-
-    @abc.abstractproperty 
-    def button_text(self) -> str: 
-        return None
-
-    @abc.abstractproperty 
-    def button_type(self) -> str:
-        """ ms-default or ms-success or ms-info or ms-warning or ms-danger""" 
-        return "ms-default"
+    def options(self): 
+        return {
+            "order": 1000,
+            "need_arrows": False,
+            "show_button": False,
+            "display_name": None,
+            "button_text": None,
+            "button_type": "ms-default" # ms-default or ms-success or ms-info or ms-warning or ms-danger
+        }
 
     def arrow_pressed(self, arrow):
         pass

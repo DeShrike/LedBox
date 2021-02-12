@@ -8,52 +8,37 @@ class Menu(PluginBase):
         self.offset = 0
         
     @property
-    def order(self) -> int: 
-        return 0
-
-    @property
-    def need_arrows(self) -> bool: 
-        return True
-
-    @property
-    def show_button(self) -> bool: 
-        return True
-
-    @property
     def name(self) -> str: 
         return "Menu"
 
     @property
-    def display_name(self) -> str: 
-        return "Menu"
-
-    @property
-    def button_text(self) -> str: 
-        return "Menu"
-
-    @property
-    def button_type(self) -> str:
-        return "ms-info"
+    def options(self): 
+        return {
+            "order": 0,
+            "need_arrows": True,
+            "show_button": True,
+            "display_name": "Menu",
+            "button_text": "Menu",
+            "button_type": "ms-info",
+        }
 
     def start(self):
         super().start()
-        print("Start", self.display_name)
+        print("Start", self.options["display_name"])
         for p in self.ledbox.plugins:
             self.menuoptions.append([p.name, p.menu_pattern()])
 
     def stop(self):
-        print("Stop", self.display_name)
+        print("Stop", self.options["display_name"])
         super().stop()
 
     def step(self):
-        print("Step", self.display_name)
+        # print("Step", self.options["display_name"])
         super().step()
         self.grid.refresh()
 
     def arrow_pressed(self, arrow):
-        print(self.display_name, arrow)
-        if arrow == self.LEFT:
-            print("Yes LEFT")
+        print(self.options["display_name"], arrow)
 
     def menu_pattern(self):
         return None

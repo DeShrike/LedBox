@@ -18,7 +18,7 @@ class LedBox():
         for plugin in plugins.PLUGINS:
             self.plugins.append(plugin(self, self.grid))
 
-        self.plugins.sort(key = lambda x: x.order, reverse = False)
+        self.plugins.sort(key = lambda x: x.options["order"], reverse = False)
 
     def start(self):
         self.active_plugin = self.plugins[0]
@@ -47,9 +47,9 @@ class LedBox():
 
     def emit_ledbox_state(self):
         state = {}
-        state["active_plugin"] = "" if self.active_plugin is None else self.active_plugin.display_name
+        state["active_plugin"] = "" if self.active_plugin is None else self.active_plugin.options["display_name"]
         state["running"] = not self.cancel
-        state["need_arrows"] = False if self.active_plugin is None else self.active_plugin.need_arrows
+        state["need_arrows"] = False if self.active_plugin is None else self.active_plugin.options["need_arrows"]
 
         self.callback(state)
 
@@ -63,7 +63,7 @@ class LedBox():
                 # print("Loop", self.active_plugin.display_name)
                 self.active_plugin.step()
 
-            time.sleep(2)
+            time.sleep(0.1)
 
     def stop(self):
         print("Stopping LedBox")

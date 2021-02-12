@@ -2,10 +2,6 @@ import importlib
 from importlib import resources
 from inspect import isclass, isabstract
 
-#from menu import Menu
-#from clock import Clock
-#from snake import Snake
-
 PLUGINS = []
 
 def _import(package, plugin):
