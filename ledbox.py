@@ -1,10 +1,11 @@
 from grid import Grid
+import config
 import plugins
 import time
 
 class LedBox():
-    width = 15
-    height = 10
+    width = config.WIDTH
+    height = config.HEIGHT
 
     def __init__(self, callback):
         self.grid = Grid(self.width, self.height)
@@ -56,14 +57,14 @@ class LedBox():
     def loop_plugin(self):
         self.start_plugin(self.plugins[0].name)
 
-        while self.cancel == False  :
+        while self.cancel == False:
             if self.active_plugin is None:
                 pass
             else:
                 # print("Loop", self.active_plugin.display_name)
                 self.active_plugin.step()
 
-            time.sleep(0.1)
+            time.sleep(0.5)
 
     def stop(self):
         print("Stopping LedBox")
@@ -75,7 +76,9 @@ class LedBox():
         print("Turning off Leds")
         self.stop_plugin()
         self.emit_ledbox_state()
-
+        self.grid.clear()
+        self.grid.refresh()
+        
     def arrow_pressed(self, arrow):
         if self.active_plugin is None:
             return

@@ -1,21 +1,19 @@
 from flask import Flask, flash, render_template, request, url_for, redirect, send_from_directory
 from flask_socketio import SocketIO, emit
 from ledbox import LedBox
+from viewmodel import ViewModel
+import config
 import threading
 import time
 import json
 
-class ViewModel():
-    def __init__(self):
-        self.title = "LED Box"
-        self.plugins = []
-        self.current_action = ""
+app = None
+ledbox = None
+socketio = None
 
 app = Flask(__name__)
 app.secret_key = "RTR10Rtnttrrwrttri76#"
 app.config["SECRET_KEY"] = "RTR10Rtnttrrwrttri76#"
-
-ledbox = None
 
 socketio = SocketIO(app)
 
@@ -103,15 +101,15 @@ def ledbox_event(data):
 
 def main():
     global ledbox
-    host = "0.0.0.0"
-    port = 8080
-    debug = True
-    options = None
+    global app
+    global socketio
+
+
     try:
         ledbox = LedBox(ledbox_event)
         x = threading.Thread(target = ledbox.loop_plugin)
         x.start()
-        socketio.run(app, host, port, debug = debug, use_reloader = False)
+        socketio.run(app, config.HOST, config.PORT, debug = config.DEBUG, use_reloader = False)
     except Exception as e:
         raise
     else:

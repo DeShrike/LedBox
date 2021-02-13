@@ -56,10 +56,37 @@ var LedBox = (function() {
         addInfo("Connecting");
 	    socket = io.connect(server);
 
+        // connect error disconnect reconnect reconnect_attempt reconnecting reconnect_error
+
     	socket.on("Connected", function(msg) {
-			console.log("After connect", msg);
+			console.log("Connected", msg);
             addInfo("Connected");
             connected = true;
+        }).on("connect", function(msg) {
+            console.log("connect", msg);
+            addInfo("connect");
+            connected = false;
+        }).on("disconnect", function(msg) {
+            console.log("disconnect", msg);
+            addInfo("disconnect");
+            showCurrentAction("(not connected)");
+            connected = false;
+        }).on("reconnect", function(msg) {
+            console.log("reconnect", msg);
+            addInfo("reconnect");
+            connected = false;
+        }).on("reconnect_attempt", function(msg) {
+            console.log("reconnect_attempt", msg);
+            addInfo("reconnect_attempt");
+            connected = false;
+        }).on("reconnecting", function(msg) {
+            console.log("connecting", msg);
+            addInfo("reconnecting");
+            connected = false;
+        }).on("reconnect_error", function(msg) {
+            console.log("reconnect_error", msg);
+            addInfo("reconnect_error");
+            connected = false;
         }).on("LedBox", function(msg) {
             console.log("LedBox event", msg);
             addInfo("LedBox");
