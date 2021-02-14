@@ -38,7 +38,7 @@ class Grid():
     def clear(self):
         for line in self.grid:
             for p in line:
-                p.r = p.g = p.g = 0
+                p.r = p.g = p.b = 0
 
     def set_pixel(self, x: int, y: int, r: int, g: int, b: int):
         if x < 0 or x >= self.width:
@@ -63,8 +63,8 @@ class Grid():
     def refresh(self):
         if config.OUTPUT_TO_TERMINAL:
             print(Ansi.HideCursor, flush = False, end = "")
-            preva = ""
             for y, line in enumerate(self.grid):
+                preva = ""
                 print(Ansi.MoveCursor(self.offsetx, 1 + y) + "|", end = "", flush = False)
                 for p in line:
                     a = self.pixel_to_ansi(p)
@@ -73,7 +73,8 @@ class Grid():
                         print(a, end = "", flush = False)
                     print("  " , end = "", flush = False)
                 print(Ansi.Reset + "|", end = "", flush = False)
-            print(Ansi.ShowCursor, end = "", flush = True)
+            print(Ansi.ShowCursor, end = "", flush = False)
+        print(Ansi.MoveCursor(1, 20), end = "", flush = True)
 
     def pixel_to_ansi(self, pixel) -> str:
         h = 256 // 2

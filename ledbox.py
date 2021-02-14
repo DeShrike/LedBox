@@ -57,14 +57,15 @@ class LedBox():
     def loop_plugin(self):
         self.start_plugin(self.plugins[0].name)
 
+        sleeptime = None
         while self.cancel == False:
             if self.active_plugin is None:
                 pass
             else:
                 # print("Loop", self.active_plugin.display_name)
-                self.active_plugin.step()
+                sleeptime = self.active_plugin.step()
 
-            time.sleep(0.5)
+            time.sleep(1 if sleeptime == None else sleeptime)
 
     def stop(self):
         print("Stopping LedBox")

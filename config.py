@@ -1,11 +1,11 @@
 # Configuration
 
-WIDTH = 16
-HEIGHT = 10
+WIDTH = 20
+HEIGHT = 12
 LEDS = WIDTH * HEIGHT
 
 PORT = 8080
 HOST = "0.0.0.0"
-DEBUG = True
+DEBUG = False
 
 OUTPUT_TO_TERMINAL = True
