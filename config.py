@@ -1,7 +1,7 @@
 # Configuration
 
-WIDTH = 20
-HEIGHT = 12
+WIDTH = 13
+HEIGHT = 18
 LEDS = WIDTH * HEIGHT
 
 PORT = 8080

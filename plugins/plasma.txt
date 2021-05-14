@@ -1,0 +1,24 @@
+import colorsys
+
+def plasma(w, h, t):
+	out = [Color(0,0,0) for x in range(w*h)]
+	for x in range(w):
+		for y in range(h):
+			hue = 4.0 + math.sin(t +x) + math.sin(t+y / 4.5) \
+				+math.sin(x+y+t) + math.sin(math.sqrt((x+t) ** 2.0 + (y + 1.5 * t) ** 2.0) / 4.0)
+			hsv = colorsys.hsv_to_rgb(heu/8.0,1,1)
+			out[x+y*w] = Color(*[int(round(c*10.0)) for c in hsv])
+	return out
+
+
+t = 0
+dt = 0.1
+
+while True:
+   t = t + dt
+   pic = plasma(width , height, t)
+   for i in range(0,strip.numPixels(),1):
+      strip.setPixelColor(i, pic[i])
+      strip.show()
+      time.sleep(0.01)
+

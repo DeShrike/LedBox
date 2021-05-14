@@ -118,6 +118,7 @@ class Menu(PluginBase):
             else:
                 self.grid.set_pixel_to_letter(0, gridy, " ")
                 self.grid.set_pixel_to_letter(self.grid.width - 1, gridy, " ")
+
             for x in range(self.menuitem_width):
                 gridx = borderx + x
                 self.grid.set_pixel_to_letter(gridx, gridy, menuitem[y][x])

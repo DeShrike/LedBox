@@ -2,6 +2,8 @@ from flask import Flask, flash, render_template, request, url_for, redirect, sen
 from flask_socketio import SocketIO, emit
 from ledbox import LedBox
 from viewmodel import ViewModel
+import logging
+import logging.config
 import config
 import threading
 import time
@@ -10,6 +12,11 @@ import json
 app = None
 ledbox = None
 socketio = None
+
+logging.config.fileConfig('logging.ini', disable_existing_loggers = False)
+logger = logging.getLogger(__name__)
+
+logger.info("Starting server")
 
 app = Flask(__name__)
 app.secret_key = "RTR10Rtnttrrwrttri76#"
@@ -104,8 +111,8 @@ def main():
     global app
     global socketio
 
-
     try:
+        logger.info("Starting ledbox")
         ledbox = LedBox(ledbox_event)
         x = threading.Thread(target = ledbox.loop_plugin)
         x.start()
@@ -115,7 +122,7 @@ def main():
     else:
         pass
     finally:
-        print("Stopping")
+        logger.info("Stopping")
         ledbox.stop()
         time.sleep(2)
 

@@ -1,7 +1,10 @@
 from grid import Grid
+import logging
 import config
 import plugins
 import time
+
+logger = logging.getLogger(__name__)
 
 class LedBox():
     width = config.WIDTH
@@ -14,7 +17,7 @@ class LedBox():
         self.plugins = []
         self.active_plugin = None
 
-        print("LedBox INIT")
+        logger.info("LedBox Initializing")
 
         for plugin in plugins.PLUGINS:
             self.plugins.append(plugin(self, self.grid))
@@ -29,7 +32,7 @@ class LedBox():
         self.stop_plugin()
         if self.cancel:
             return
-        # print("Trying to start plugin", name)
+        logger.info(f"Trying to start plugin [{name}]")
         for p in self.plugins:
             if p.name == name:
                 self.active_plugin = p
@@ -39,7 +42,7 @@ class LedBox():
         self.emit_ledbox_state()
 
     def stop_plugin(self):
-        # print("Stopping active plugin")
+        logger.info("Stopping active plugin")
         if self.active_plugin is None:
             return
         self.active_plugin.stop()
@@ -68,13 +71,13 @@ class LedBox():
             time.sleep(1 if sleeptime == None else sleeptime)
 
     def stop(self):
-        print("Stopping LedBox")
+        logger.info("Stopping LedBox")
         self.stop_plugin()
         self.cancel = True
         self.emit_ledbox_state()
 
     def off(self):
-        print("Turning off Leds")
+        logger.info("Turning off Leds")
         self.stop_plugin()
         self.emit_ledbox_state()
         self.grid.clear()
