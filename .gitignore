@@ -130,4 +130,7 @@ dmypy.json
 
 # Misc
 nohup.out
+app.log
+app.log.*
+.vscode
 
