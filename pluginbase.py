@@ -20,6 +20,7 @@ class PluginBase(ABC):
     def options(self): 
         return {
             "order": 1000,
+            "in_random": False,
             "need_arrows": False,
             "show_button": False,
             "display_name": None,
@@ -41,7 +42,9 @@ class PluginBase(ABC):
 
     def menu_pattern(self):
         return [
-            ["R", "G", "B"],
-            ["R", "G", "B"],
-            ["R", "G", "B"]
+            ["R", "G", "B", "C", "W"],
+            ["R", "G", "B", "M", "Y"],
+            ["R", "G", "B", "C", "W"],
+            ["R", "G", "B", "M", "Y"],
+            ["R", "G", "B", "C", "W"]
         ]

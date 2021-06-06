@@ -21,6 +21,7 @@ class Snake(PluginBase):
     def options(self): 
         return {
             "order": 1,
+            "in_random": False,
             "need_arrows": True,
             "show_button": True,
             "display_name": "Snake",
@@ -40,7 +41,7 @@ class Snake(PluginBase):
         self.speed = 1
 
     def stop(self):
-        print("Stop", self.options["display_name"])
+        # print("Stop", self.options["display_name"])
         super().stop()
 
     def step(self):

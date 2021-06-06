@@ -12,23 +12,24 @@ class GameOfLife(PluginBase):
     def options(self): 
         return {
             "order": 3,
+            "in_random": True,
             "need_arrows": False,
             "show_button": True,
             "display_name": "Game Of Life",
-            "button_text": "Life",
+            "button_text": "Game Of Life",
             "button_type": "ms-default"
         }
 
     def start(self):
         super().start()
-        print("Start", self.options["display_name"])
+        # print("Start", self.options["display_name"])
 
     def stop(self):
-        print("Stop", self.options["display_name"])
+        # print("Stop", self.options["display_name"])
         super().stop()
 
     def step(self):
-        print("Step", self.options["display_name"])
+        # print("Step", self.options["display_name"])
         super().step()
         self.grid.refresh()
 

@@ -90,7 +90,13 @@ var LedBox = (function() {
         }).on("LedBox", function(msg) {
             console.log("LedBox event", msg);
             addInfo("LedBox");
-            showCurrentAction(msg.active_plugin);
+            if (msg.random_loop) {
+                showCurrentAction("Random - " + msg.active_plugin);
+            }
+            else {
+                showCurrentAction(msg.active_plugin);
+            }
+
             if (msg.need_arrows) {
                 $(".arrow-button").show();
             }

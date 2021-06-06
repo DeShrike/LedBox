@@ -1,8 +1,9 @@
 from pixel import Pixel
 from ansi import Ansi
+import logging
 import config
 
-color_to_ansi = { 
+color_to_ansi = {
     (1, 1, 1): Ansi.WhiteBackground,
     (0, 1, 1): Ansi.CyanBackground,
     (1, 0, 1): Ansi.MagentaBackground,
@@ -24,15 +25,18 @@ letter_to_rgb = {
     " ": (  0,   0,   0)
 }
 
+logger = logging.getLogger(__name__)
+
 class Grid():
 
     def __init__(self, width, height):
+        logger.info(f"Grid {width}x{height}")
         self.width = width
         self.height = height
         self.grid = [[Pixel() for _ in range(self.width)] for _ in range(self.height)]
-        self.offsetx = (80 - (2 * self.width)) // 2
-        Ansi.Init()
         if config.OUTPUT_TO_TERMINAL:
+            self.offsetx = (80 - (2 * self.width)) // 2
+            Ansi.Init()
             print(Ansi.Clear, end = "", flush = True)
 
     def clear(self):
@@ -61,19 +65,20 @@ class Grid():
         self.grid[y][x].b = letter_to_rgb[l][2]
 
     def refresh(self):
-        if config.OUTPUT_TO_TERMINAL:
-            print(Ansi.HideCursor, flush = False, end = "")
-            for y, line in enumerate(self.grid):
-                preva = ""
-                print(Ansi.MoveCursor(self.offsetx, 1 + y) + "|", end = "", flush = False)
-                for p in line:
-                    a = self.pixel_to_ansi(p)
-                    if a != preva:
-                        preva = a
-                        print(a, end = "", flush = False)
-                    print("  " , end = "", flush = False)
-                print(Ansi.Reset + "|", end = "", flush = False)
-            print(Ansi.ShowCursor, end = "", flush = False)
+        if config.OUTPUT_TO_TERMINAL == False:
+            return
+        print(Ansi.HideCursor, flush = False, end = "")
+        for y, line in enumerate(self.grid):
+            preva = ""
+            print(Ansi.MoveCursor(self.offsetx, 1 + y) + "|", end = "", flush = False)
+            for p in line:
+                a = self.pixel_to_ansi(p)
+                if a != preva:
+                    preva = a
+                    print(a, end = "", flush = False)
+                print("  " , end = "", flush = False)
+            print(Ansi.Reset + "|", end = "", flush = False)
+        print(Ansi.ShowCursor, end = "", flush = False)
         print(Ansi.MoveCursor(1, 20), end = "", flush = True)
 
     def pixel_to_ansi(self, pixel) -> str:

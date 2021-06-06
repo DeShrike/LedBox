@@ -16,6 +16,7 @@ class LedBox():
         self.cancel = False
         self.plugins = []
         self.active_plugin = None
+        self.random_loop = False
 
         logger.info("LedBox Initializing")
 
@@ -42,9 +43,9 @@ class LedBox():
         self.emit_ledbox_state()
 
     def stop_plugin(self):
-        logger.info("Stopping active plugin")
         if self.active_plugin is None:
             return
+        logger.info(f"Stopping active plugin [{self.active_plugin.name}]")
         self.active_plugin.stop()
         self.active_plugin = None
         self.emit_ledbox_state()
@@ -53,6 +54,7 @@ class LedBox():
         state = {}
         state["active_plugin"] = "" if self.active_plugin is None else self.active_plugin.options["display_name"]
         state["running"] = not self.cancel
+        state["random_loop"] = self.random_loop
         state["need_arrows"] = False if self.active_plugin is None else self.active_plugin.options["need_arrows"]
 
         self.callback(state)
@@ -72,17 +74,27 @@ class LedBox():
 
     def stop(self):
         logger.info("Stopping LedBox")
+        self.random_loop = False
         self.stop_plugin()
         self.cancel = True
         self.emit_ledbox_state()
+        # Exit program ? of Shutdown Pi ?
 
     def off(self):
         logger.info("Turning off Leds")
+        self.random_loop = False
         self.stop_plugin()
         self.emit_ledbox_state()
         self.grid.clear()
         self.grid.refresh()
-        
+
+    def random(self):
+        logger.info("Starting Random Loop")
+        self.stop_plugin()
+        self.random_loop = True
+        self.emit_ledbox_state()
+        # TODO
+
     def arrow_pressed(self, arrow):
         if self.active_plugin is None:
             return

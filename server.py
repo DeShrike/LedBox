@@ -1,9 +1,9 @@
+import log
 from flask import Flask, flash, render_template, request, url_for, redirect, send_from_directory
 from flask_socketio import SocketIO, emit
 from ledbox import LedBox
 from viewmodel import ViewModel
 import logging
-import logging.config
 import config
 import threading
 import time
@@ -13,20 +13,23 @@ app = None
 ledbox = None
 socketio = None
 
-logging.config.fileConfig('logging.ini', disable_existing_loggers = False)
+#logging.config.fileConfig('logging.ini', disable_existing_loggers = False)
 logger = logging.getLogger(__name__)
-
 logger.info("Starting server")
 
+
+logger.info("Initializing Flask")
 app = Flask(__name__)
 app.secret_key = "RTR10Rtnttrrwrttri76#"
 app.config["SECRET_KEY"] = "RTR10Rtnttrrwrttri76#"
 
+logger.info("Initializing SocketIO")
 socketio = SocketIO(app)
 
 @socketio.on("connect")
 def connected():
     emit("Connected", {"data": "LED Box"})
+    logger.info("SocketIO Client connected")
     ledbox.emit_ledbox_state()
 
 def message_received(methods = ["GET", "POST"]):
@@ -39,6 +42,8 @@ def handle_special_event(json_data, methods = ["GET", "POST"]):
         ledbox.off()
     elif json_data["data"] == "shutdown":
         ledbox.stop()
+    elif json_data["data"] == "random":
+        ledbox.random()
     # socketio.emit("Response", json_data, callback = message_received)
 
 @socketio.on("ArrowEvent")
@@ -55,6 +60,7 @@ def handle_action_event(json_data, methods = ["GET", "POST"]):
 
 @app.route("/")
 def index():
+    logger.info("GET /")
     model = ViewModel()
 
     for p in ledbox.get_plugins():
@@ -66,10 +72,10 @@ def index():
 
     return render_template("index.html", model = model)
 
-# @app.route("/login", methods = ["POST", "GET"]) 
-# def login(): 
+# @app.route("/login", methods = ["POST", "GET"])
+# def login():
 #     model = LoginModel()
-# 
+#
 #     if request.method == "POST":
 #         model.username = request.form["username"]
 #         model.password = request.form["password"]
@@ -112,10 +118,13 @@ def main():
     global socketio
 
     try:
-        logger.info("Starting ledbox")
+        logger.info("Starting LedBox")
         ledbox = LedBox(ledbox_event)
         x = threading.Thread(target = ledbox.loop_plugin)
+        logger.info("Starting main loop")
         x.start()
+        logger.info("Starting SocketIO")
+        logger.info(f"Listening on port {config.PORT}")
         socketio.run(app, config.HOST, config.PORT, debug = config.DEBUG, use_reloader = False)
     except Exception as e:
         raise

@@ -6,14 +6,7 @@ import logging.config
 
 logging.config.fileConfig('logging.ini', disable_existing_loggers = False)
 logger = logging.getLogger(__name__) # 'root' Logger
-
-# console = logging.StreamHandler()
-
-# format_str = '%(asctime)s\t%(levelname)s -- %(processName)s %(filename)s:%(lineno)s -- %(message)s'
-# console.setFormatter(logging.Formatter(format_str))
-
-# log.addHandler(console) # prints to console.
-# log.setLevel(logging.ERROR) # anything ERROR or above
+logger.info("Logging Initialized")
 
 # logger.debug(__name__)
 # logger.info("Hello World")

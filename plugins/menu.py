@@ -23,6 +23,7 @@ class Menu(PluginBase):
     def options(self): 
         return {
             "order": 0,
+            "in_random": False,
             "need_arrows": True,
             "show_button": True,
             "display_name": "Menu",
@@ -60,7 +61,7 @@ class Menu(PluginBase):
         if self.changed:
             self.grid.refresh()
             self.changed = False
-            self.show_info()
+            #self.show_info()
             return 0.1
 
         return None

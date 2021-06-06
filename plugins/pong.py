@@ -18,6 +18,7 @@ class Pong(PluginBase):
     def options(self): 
         return {
             "order": 6,
+            "in_random": False,
             "need_arrows": True,
             "show_button": True,
             "display_name": "Pong",
