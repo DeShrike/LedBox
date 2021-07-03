@@ -8,23 +8,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1, maximum-scale=1">
 
 		<!-- See https://minstyle.io/docs/ -->
-		<link rel="stylesheet" href="/css/minstyle.io.css">
-		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/minstyle.io.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 		<!-- See https://github.com/fabiospampinato/cash -->
-		<script type="text/javascript" src="/js/cash.min.js"></script>
-
-		<!--<script type="text/javascript" src="/js/dark.min.js"></script>-->
-		<script type="text/javascript" src="/js/socket.io.js"></script>
-		<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js"></script>-->
-
-		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+		<script type="text/javascript" src="{{ url_for('static', filename='js/cash.min.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
 
 		<script>
 			$(function() {
-				// if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-				//	$("body").addClass("dark");
-				// }
+				// NOOP
 			});
 		</script>
 	</head>
@@ -32,7 +25,7 @@
 		<div class="ms-content">
 			<div class="ms-menu">
 			    <div class="ms-menu-logo">
-			    	<p><img src="/img/logo.png" alt="LED Box" /></p>
+			    	<p><a href="{{ url_for('about') }}"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="LED Box" /></a></p>
 			    </div>
 			    <div class="ms-menu-logo">
 			    	<p>{{model.title}}</p>
@@ -49,7 +42,7 @@
 		{% endblock %}
 		</div>
 
-		<script type="text/javascript" src="/js/app.js?3"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='js/app.js?3') }}"></script>
 
 		{% block javascript %}
 	 

@@ -1,17 +1,11 @@
 {% extends '_layout.html' %}
 
-
 {% block head %}
-
 {% endblock %}
-
-
 
 {% block title %}
 LED Box
 {% endblock %}
-
-
 
 {% block body %}
 
@@ -21,16 +15,8 @@ LED Box
 			<button class="ms-btn action-button {{p[3]}}" data-action="{{p[0]}}">{{p[2]}}</button>
 		{% endfor %}
 
-		<!--<button class="ms-btn ms-info" id="menu-button">Menu</button>
-		<button class="ms-btn action-button" data-action="connect4">Connect4</button>
-		<button class="ms-btn action-button" data-action="matrix">Matrix</button>
-		<button class="ms-btn action-button" data-action="plasma">Plasma</button>
-		<button class="ms-btn action-button" data-action="fire">Fire</button>
-		<button class="ms-btn action-button" data-action="sparkles">Sparkles</button>
-		<button class="ms-btn action-button" data-action="xmas">X-mas</button>
-		<button class="ms-btn action-button" data-action="tetris">Tetris</button>-->
-		<button class="ms-btn ms-info special-button" data-action="random">Random</button>
-		<button class="ms-btn ms-danger special-button" data-action="off">Off</button>
+		<button class="ms-btn ms-success special-button" data-action="random">Random</button>
+		<button class="ms-btn ms-warning special-button" data-action="off">Off</button>
 		<button class="ms-btn ms-danger special-button" data-action="shutdown">Shutdown</button>
 	</div>
 </div>
@@ -51,7 +37,7 @@ LED Box
 	<div class="col-md-3 col-3"></div>
 	<div class="col-md-6 col-6 center-button">
 		<button class="ms-btn arrow-button ms-default" data-arrow="up">
-			<img src="/img/Arrow_Up.svg" alt="Up" height="35" />
+			<img src="{{ url_for('static', filename='img/Arrow_Up.svg') }}" alt="Up" height="35" />
 		</button>
 	</div>
 	<div class="col-md-3 col-3"></div>
@@ -61,17 +47,17 @@ LED Box
 	<div class="col-md-3 col-1"></div>
 	<div class="col-md-3 col-5 center-button">
 		<button class="ms-btn arrow-button ms-default" data-arrow="left">
-			<img src="/img/Arrow_Left.svg" alt="Left" height="35" />
+			<img src="{{ url_for('static', filename='img/Arrow_Left.svg') }}" alt="Left" height="35" />
 		</button>
 	</div>
 	<!--<div class="col-md-2 col-2 center-button">
 		<button class="ms-btn arrow-button ms-default" data-arrow="enter">
-			<img src="/img/Circle.svg" alt="Enter" height="35" />
+			<img src="{{ url_for('static', filename='img/Circle.svg') }}" alt="Enter" height="35" />
 		</button>
 	</div>-->
 	<div class="col-md-3 col-5 center-button">
 		<button class="ms-btn arrow-button ms-default" data-arrow="right">
-			<img src="/img/Arrow_Right.svg" alt="Right" height="35" />
+			<img src="{{ url_for('static', filename='img/Arrow_Right.svg') }}" alt="Right" height="35" />
 		</button>
 	</div>
 	<div class="col-md-3 col-1"></div>
@@ -81,15 +67,13 @@ LED Box
 	<div class="col-md-3 col-3"></div>
 	<div class="col-md-6 col-6 center-button">
 		<button class="ms-btn arrow-button ms-default" data-arrow="down">
-			<img src="/img/Arrow_Down.svg" alt="Down" height="35" />
+			<img src="{{ url_for('static', filename='img/Arrow_Down.svg') }}" alt="Down" height="35" />
 		</button>
 	</div>
 	<div class="col-md-3 col-3"></div>
 </div>
 
 {% endblock %}
-
-
 
 {% block javascript %}
 

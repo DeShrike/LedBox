@@ -3,6 +3,8 @@ from flask import Flask, flash, render_template, request, url_for, redirect, sen
 from flask_socketio import SocketIO, emit
 from ledbox import LedBox
 from viewmodel import ViewModel
+from datetime import timedelta
+#from static.static_routes import static_routes
 import logging
 import config
 import threading
@@ -17,11 +19,12 @@ socketio = None
 logger = logging.getLogger(__name__)
 logger.info("Starting server")
 
-
 logger.info("Initializing Flask")
 app = Flask(__name__)
 app.secret_key = "RTR10Rtnttrrwrttri76#"
 app.config["SECRET_KEY"] = "RTR10Rtnttrrwrttri76#"
+app.permanent_session_lifetime = timedelta(days = 2)
+#app.register_blueprint(static_routes, url_prefix = "/static")
 
 logger.info("Initializing SocketIO")
 socketio = SocketIO(app)
@@ -44,6 +47,8 @@ def handle_special_event(json_data, methods = ["GET", "POST"]):
         ledbox.stop()
     elif json_data["data"] == "random":
         ledbox.random()
+    else:
+        abort(404, "Unsuppored data")
     # socketio.emit("Response", json_data, callback = message_received)
 
 @socketio.on("ArrowEvent")
@@ -57,6 +62,11 @@ def handle_action_event(json_data, methods = ["GET", "POST"]):
     # print("Received Action event: " + str(json_data))
     ledbox.start_plugin(json_data["data"])
     # socketio.emit("Response", json_data, callback = message_received)
+
+@app.route("/about")
+def about():
+    model = { "intro": "This is about ...." }
+    return render_template("about.html", model = model)
 
 @app.route("/")
 def index():
@@ -72,6 +82,16 @@ def index():
 
     return render_template("index.html", model = model)
 
+#@app.route("/logout")
+#def logout():
+#    session.pop("user", None)
+#    return redirect(url_for("login"))
+#@app.route("/")
+#def index():
+#    if "user" in session:
+#        pass
+#    else:
+#        redirect(url_for("login")) 
 # @app.route("/login", methods = ["POST", "GET"])
 # def login():
 #     model = LoginModel()
@@ -80,27 +100,14 @@ def index():
 #         model.username = request.form["username"]
 #         model.password = request.form["password"]
 #         if model.username == "admin" and model.password == "admin":
+#             session.permanent = True
+#             session["user"] = model.username
 #             return redirect(url_for("index"))
 #         else:
 #             return render_template("login.html", model = model)
 #     else:
 #         return render_template("login.html", model = model)
 
-@app.route("/js/<path:path>")
-def send_js(path):
-    return send_from_directory("js", path)
-
-@app.route("/css/<path:path>")
-def send_css(path):
-    return send_from_directory("css", path)
-
-@app.route("/img/<path:path>")
-def send_img(path):
-    return send_from_directory("img", path)
-
-@app.route("/favicon.ico")
-def send_favicon():
-    return send_from_directory("img", "favicon.ico")
 
 #@app.route("/api/ledbox")
 #def api_ledbox():
