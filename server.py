@@ -1,10 +1,9 @@
 import log
-from flask import Flask, flash, render_template, request, url_for, redirect, send_from_directory
+from flask import Flask, flash, request, url_for, redirect
 from flask_socketio import SocketIO, emit
 from ledbox import LedBox
-from viewmodel import ViewModel
 from datetime import timedelta
-#from static.static_routes import static_routes
+from handlers import handlers
 import logging
 import config
 import threading
@@ -24,19 +23,33 @@ app = Flask(__name__)
 app.secret_key = "RTR10Rtnttrrwrttri76#"
 app.config["SECRET_KEY"] = "RTR10Rtnttrrwrttri76#"
 app.permanent_session_lifetime = timedelta(days = 2)
-#app.register_blueprint(static_routes, url_prefix = "/static")
+app.register_blueprint(handlers)
 
 logger.info("Initializing SocketIO")
 socketio = SocketIO(app)
+
+@socketio.on_error()
+def error_handler(e):
+    pass
 
 @socketio.on("connect")
 def connected():
     emit("Connected", {"data": "LED Box"})
     logger.info("SocketIO Client connected")
+    print(request.args)
     ledbox.emit_ledbox_state()
+
+@socketio.on("disconnect")
+def disconnected():
+    #emit("Connected", {"data": "LED Box"})
+    #print(sid, "disconnected")
+    logger.info("SocketIO Client disconnected")
+    print(request.args)
+    #ledbox.emit_ledbox_state()
 
 def message_received(methods = ["GET", "POST"]):
     print("message was received!!!")
+    # send("x", broadcast = True)
 
 @socketio.on("SpecialEvent")
 def handle_special_event(json_data, methods = ["GET", "POST"]):
@@ -63,24 +76,6 @@ def handle_action_event(json_data, methods = ["GET", "POST"]):
     ledbox.start_plugin(json_data["data"])
     # socketio.emit("Response", json_data, callback = message_received)
 
-@app.route("/about")
-def about():
-    model = { "intro": "This is about ...." }
-    return render_template("about.html", model = model)
-
-@app.route("/")
-def index():
-    logger.info("GET /")
-    model = ViewModel()
-
-    for p in ledbox.get_plugins():
-        if p.options["show_button"] == False:
-            continue
-        model.plugins.append((p.name, p.options["display_name"], p.options["button_text"], p.options["button_type"]))
-
-    model.current_action = "(not connected)"
-
-    return render_template("index.html", model = model)
 
 #@app.route("/logout")
 #def logout():
