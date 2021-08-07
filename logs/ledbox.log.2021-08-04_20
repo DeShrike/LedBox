@@ -1,0 +1,18 @@
+2021-08-04 20:26:33,714 log          - INFO     - Logging Initialized
+2021-08-04 20:26:40,317 plugins      - INFO     - Loading plugins
+2021-08-04 20:26:40,336 plugins      - DEBUG    - Loaded Plugin <class 'plugins.snake.Snake'>
+2021-08-04 20:26:40,345 plugins      - DEBUG    - Loaded Plugin <class 'plugins.pong.Pong'>
+2021-08-04 20:26:40,353 plugins      - DEBUG    - Loaded Plugin <class 'plugins.menu.Menu'>
+2021-08-04 20:26:40,361 plugins      - DEBUG    - Loaded Plugin <class 'plugins.gameoflife.GameOfLife'>
+2021-08-04 20:26:40,369 plugins      - DEBUG    - Loaded Plugin <class 'plugins.dot.Dot'>
+2021-08-04 20:26:40,376 plugins      - DEBUG    - Loaded Plugin <class 'plugins.clock.Clock'>
+2021-08-04 20:26:40,390 __main__     - INFO     - Starting server
+2021-08-04 20:26:40,394 __main__     - INFO     - Initializing Flask
+2021-08-04 20:26:40,467 __main__     - INFO     - Initializing SocketIO
+2021-08-04 20:26:40,579 __main__     - INFO     - Starting LedBox
+2021-08-04 20:26:40,582 grid         - INFO     - Grid 13x17
+2021-08-04 20:26:40,592 ledbox       - INFO     - LedBox Initializing
+2021-08-04 20:26:40,597 __main__     - INFO     - Starting main loop
+2021-08-04 20:26:40,602 ledbox       - INFO     - Trying to start plugin [Menu]
+2021-08-04 20:26:40,603 __main__     - INFO     - Starting SocketIO
+2021-08-04 20:26:40,614 __main__     - INFO     - Listening on port 8080

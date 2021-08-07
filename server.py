@@ -129,6 +129,7 @@ def main():
         logger.info(f"Listening on port {config.PORT}")
         socketio.run(app, config.HOST, config.PORT, debug = config.DEBUG, use_reloader = False)
     except Exception as e:
+        print(e)
         raise
     else:
         pass

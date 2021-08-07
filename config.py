@@ -1,7 +1,7 @@
 # Configuration
 
 WIDTH = 13
-HEIGHT = 18
+HEIGHT = 17
 LEDS = WIDTH * HEIGHT
 
 DATA_PIN = 18
