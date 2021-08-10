@@ -2,28 +2,19 @@ import log
 from flask import Flask, flash, request, url_for, redirect
 from flask_socketio import SocketIO, emit
 from ledbox import LedBox
-from datetime import timedelta
-from handlers import handlers
 import logging
 import config
 import threading
 import time
 import json
 
-app = None
 ledbox = None
-socketio = None
 
-#logging.config.fileConfig('logging.ini', disable_existing_loggers = False)
 logger = logging.getLogger(__name__)
 logger.info("Starting server")
-
 logger.info("Initializing Flask")
-app = Flask(__name__)
-app.secret_key = "RTR10Rtnttrrwrttri76#"
-app.config["SECRET_KEY"] = "RTR10Rtnttrrwrttri76#"
-app.permanent_session_lifetime = timedelta(days = 2)
-app.register_blueprint(handlers)
+
+from app import app
 
 logger.info("Initializing SocketIO")
 socketio = SocketIO(app)
@@ -36,7 +27,7 @@ def error_handler(e):
 def connected():
     emit("Connected", {"data": "LED Box"})
     logger.info("SocketIO Client connected")
-    print(request.args)
+    #print(request.args)
     ledbox.emit_ledbox_state()
 
 @socketio.on("disconnect")
@@ -44,7 +35,7 @@ def disconnected():
     #emit("Connected", {"data": "LED Box"})
     #print(sid, "disconnected")
     logger.info("SocketIO Client disconnected")
-    print(request.args)
+    #print(request.args)
     #ledbox.emit_ledbox_state()
 
 def message_received(methods = ["GET", "POST"]):
@@ -53,7 +44,7 @@ def message_received(methods = ["GET", "POST"]):
 
 @socketio.on("SpecialEvent")
 def handle_special_event(json_data, methods = ["GET", "POST"]):
-    # print("Received Menu event: " + str(json_data))
+    logger.info("Received Special Event: " + str(json_data))
     if json_data["data"] == "off":
         ledbox.off()
     elif json_data["data"] == "shutdown":
@@ -66,49 +57,15 @@ def handle_special_event(json_data, methods = ["GET", "POST"]):
 
 @socketio.on("ArrowEvent")
 def handle_arrow_event(json_data, methods = ["GET", "POST"]):
-    # print("Received Arrow event: " + str(json_data))
+    logger.info("Received Arrow Event: " + str(json_data))
     ledbox.arrow_pressed(json_data["data"])
     # socketio.emit("Response", json_data, callback = message_received)
 
 @socketio.on("ActionEvent")
 def handle_action_event(json_data, methods = ["GET", "POST"]):
-    # print("Received Action event: " + str(json_data))
+    logger.info("Received Action Event: " + str(json_data))
     ledbox.start_plugin(json_data["data"])
     # socketio.emit("Response", json_data, callback = message_received)
-
-
-#@app.route("/logout")
-#def logout():
-#    session.pop("user", None)
-#    return redirect(url_for("login"))
-#@app.route("/")
-#def index():
-#    if "user" in session:
-#        pass
-#    else:
-#        redirect(url_for("login")) 
-# @app.route("/login", methods = ["POST", "GET"])
-# def login():
-#     model = LoginModel()
-#
-#     if request.method == "POST":
-#         model.username = request.form["username"]
-#         model.password = request.form["password"]
-#         if model.username == "admin" and model.password == "admin":
-#             session.permanent = True
-#             session["user"] = model.username
-#             return redirect(url_for("index"))
-#         else:
-#             return render_template("login.html", model = model)
-#     else:
-#         return render_template("login.html", model = model)
-
-
-#@app.route("/api/ledbox")
-#def api_ledbox():
-    # books = []
-    # return render_template("books.json", model = books), 201, {"Content-Type" : "application/json"}
-    # return "LDJQLKDJQSLD"
 
 def ledbox_event(data):
     # print(data)
@@ -116,8 +73,6 @@ def ledbox_event(data):
 
 def main():
     global ledbox
-    global app
-    global socketio
 
     try:
         logger.info("Starting LedBox")

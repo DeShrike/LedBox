@@ -1,3 +1,4 @@
+from abc import ABCMeta, abstractstaticmethod
 from grid import Grid
 import logging
 import config
@@ -9,6 +10,12 @@ logger = logging.getLogger(__name__)
 class LedBox():
     width = config.WIDTH
     height = config.HEIGHT
+
+    __instance = None
+
+    @staticmethod
+    def current():
+        return LedBox.__instance
 
     def __init__(self, callback):
         self.grid = Grid(self.width, self.height)
@@ -24,6 +31,7 @@ class LedBox():
             self.plugins.append(plugin(self, self.grid))
 
         self.plugins.sort(key = lambda x: x.options["order"], reverse = False)
+        LedBox.__instance = self
 
     def start(self):
         self.active_plugin = self.plugins[0]

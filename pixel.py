@@ -3,4 +3,3 @@ class Pixel():
 		self.r = 0
 		self.g = 0
 		self.b = 0
-		self.brightness = 0.5

@@ -1,25 +1,28 @@
-from flask import Blueprint, send_from_directory, render_template
-from viewmodel import ViewModel
+from app import app
+from flask import render_template, send_from_directory
+from ledbox import LedBox
 import logging
+from .viewmodel import ViewModel
 
-handlers = Blueprint("handlers", __name__)
 logger = logging.getLogger(__name__)
 
-@handlers.route("/favicon.ico")
+@app.route("/favicon.ico")
 def send_favicon():
     return send_from_directory("img", "favicon.ico")
 
-@handlers.route("/about")
+@app.route("/about")
 def about():
     model = ViewModel()
     model.title = "About"
     model.intro = "The is the 'about' text"
+
     return render_template("about.html", model = model)
 
-@handlers.route("/")
+@app.route("/")
 def index():
     logger.info("GET /")
     model = ViewModel()
+    ledbox = LedBox.current()
 
     for p in ledbox.get_plugins():
         if p.options["show_button"] == False:
