@@ -1,19 +1,34 @@
 from pixel import Pixel
 import logging
 import config
+import neopixel
 
 letter_to_rgb = {
     "R": (255,   0,   0),
     "G": (  0, 255,   0),
     "B": (  0,   0, 255),
+
     "W": (255, 255, 255),
+    "A": (  0,   0,   0),
+
     "C": (  0, 255, 255),
     "M": (255,   0, 255),
     "Y": (255, 255,   0),
+
     " ": (  0,   0,   0)
 }
 
 logger = logging.getLogger(__name__)
+
+class DummyStrip():
+    def __init__(self):
+        pass
+    def show(self):
+        pass
+    def __getitem__(self, key):
+        pass
+    def __setitem__(self, key, value):
+        pass
 
 class Grid():
 
@@ -22,6 +37,21 @@ class Grid():
         self.width = width
         self.height = height
         self.grid = [[Pixel() for _ in range(self.width)] for _ in range(self.height)]
+
+        self.grid_to_strip_index = {}
+        # strip starts bottom right and zigzags first horizontally and then up
+        stripindex = 0
+        y = self.height - 1
+        while y >= 0:
+            x = self.width - 1
+            while x >= 0:
+                self.grid_to_strip_index[(x, y)] = stripindex
+                stripindex += 1
+                x -= 1
+            y -= 1
+        
+        #self.strip = neopixel.NeoPixel(pixel_pin, self.width * self.height, brightness = 0.1, auto_write = False, pixel_order = ORDER)
+        self.strip = DummyStrip()
 
     def clear(self):
         for line in self.grid:
@@ -49,4 +79,7 @@ class Grid():
         self.grid[y][x].b = letter_to_rgb[l][2]
 
     def refresh(self):
-        print("Grid Refresh")
+        for x in range(self.width):
+            for y in range(self.height):
+                self.strip[self.grid_to_strip_index[(x, y)]] = self.grid[y][x].to_color()
+        self.strip.show()

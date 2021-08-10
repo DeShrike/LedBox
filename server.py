@@ -1,5 +1,4 @@
 import log
-from flask import Flask, flash, request, url_for, redirect
 from flask_socketio import SocketIO, emit
 from ledbox import LedBox
 import logging
@@ -21,21 +20,19 @@ socketio = SocketIO(app)
 
 @socketio.on_error()
 def error_handler(e):
+    print("SocketIO error")
     pass
 
 @socketio.on("connect")
 def connected():
     emit("Connected", {"data": "LED Box"})
     logger.info("SocketIO Client connected")
-    #print(request.args)
     ledbox.emit_ledbox_state()
 
 @socketio.on("disconnect")
 def disconnected():
     #emit("Connected", {"data": "LED Box"})
-    #print(sid, "disconnected")
     logger.info("SocketIO Client disconnected")
-    #print(request.args)
     #ledbox.emit_ledbox_state()
 
 def message_received(methods = ["GET", "POST"]):

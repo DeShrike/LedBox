@@ -14,13 +14,13 @@ def send_favicon():
 def about():
     model = ViewModel()
     model.title = "About"
-    model.intro = "The is the 'about' text"
+    model.intro = "This is the 'about' text"
 
     return render_template("about.html", model = model)
 
 @app.route("/")
 def index():
-    logger.info("GET /")
+    # logger.info("GET /")
     model = ViewModel()
     ledbox = LedBox.current()
 

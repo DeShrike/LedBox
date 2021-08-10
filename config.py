@@ -1,10 +1,9 @@
-# Configuration
+import board
 
 WIDTH = 13
 HEIGHT = 17
-LEDS = WIDTH * HEIGHT
 
-DATA_PIN = 18
+DATA_PIN = board.D18
 
 PORT = 8080
 HOST = "0.0.0.0"
