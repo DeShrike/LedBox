@@ -12,7 +12,7 @@ class Clock(PluginBase):
     def options(self): 
         return {
             "order": 2,
-            "in_random": False,
+            "in_random": True,
             "need_arrows": False,
             "show_button": True,
             "display_name": "Clock",

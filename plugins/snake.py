@@ -96,7 +96,7 @@ class Snake(PluginBase):
             ["Y", " ", " ", " ", "W"],
             [" ", " ", "W", " ", "W"],
             ["G", " ", "W", "W", "W"]
-         ]
+        ]
 
     def add_food(self):
         x = 0

@@ -42,6 +42,7 @@ def message_received(methods = ["GET", "POST"]):
 @socketio.on("SpecialEvent")
 def handle_special_event(json_data, methods = ["GET", "POST"]):
     logger.info("Received Special Event: " + str(json_data))
+    ledbox.stop_random()
     if json_data["data"] == "off":
         ledbox.off()
     elif json_data["data"] == "shutdown":
@@ -61,6 +62,7 @@ def handle_arrow_event(json_data, methods = ["GET", "POST"]):
 @socketio.on("ActionEvent")
 def handle_action_event(json_data, methods = ["GET", "POST"]):
     logger.info("Received Action Event: " + str(json_data))
+    ledbox.stop_random()
     ledbox.start_plugin(json_data["data"])
     # socketio.emit("Response", json_data, callback = message_received)
 

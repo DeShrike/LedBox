@@ -96,12 +96,21 @@ class LedBox():
         self.grid.clear()
         self.grid.refresh()
 
+    def stop_random(self):
+        self.random_loop = False
+
     def random(self):
         logger.info("Starting Random Loop")
         self.stop_plugin()
         self.random_loop = True
         self.emit_ledbox_state()
-        # TODO
+
+        # select a random plugin
+        while True:
+            p = random.choice(self.plugins)
+            if p.options["in_random"] == True:
+                self.start_plugin(p.name)
+                break
 
     def arrow_pressed(self, arrow):
         if self.active_plugin is None:
