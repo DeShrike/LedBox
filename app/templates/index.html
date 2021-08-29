@@ -8,7 +8,7 @@ LED Box
 
 <script type="text/javascript" src="%% url_for('static', filename='js/socket.io.js') %%"></script>
 <script type="text/javascript" src="%% url_for('static', filename='js/vue3/vue.global.js') %%"></script>
-<script type="text/javascript" src="%% url_for('static', filename='js/axios/axios.js') %%"></script>
+<!-- <script type="text/javascript" src="%% url_for('static', filename='js/axios/axios.js') %%"></script> -->
 
 {% endblock %}
 
@@ -18,21 +18,21 @@ LED Box
 <div id="ledbox-vue">
 
 	<div class="row">
-		<div class="col-md-12 col-12">
+		<div class="col-md-12 col-12" v-show="connected">
 			{% for p in model.plugins: %}
 			<button class="ms-btn action-button %% p[3] %%" v-on:click="menuClick('%%p[0]%%')">%% p[2] %%</button>
 			{% endfor %}
 
-			<button class="ms-btn ms-success special-button" v-on:click="menuClick('random')">Random</button>
-			<button class="ms-btn ms-warning special-button" v-on:click="menuClick('off')">Off</button>
-			<button class="ms-btn ms-danger special-button" v-on:click="menuClick('shutdozn')">Shutdown</button>
+			<button class="ms-btn ms-success special-button" v-on:click="specialClick('random')">Random</button>
+			<button class="ms-btn ms-warning special-button" v-on:click="specialClick('off')">Off</button>
+			<button class="ms-btn ms-danger special-button" v-on:click="specialClick('shutdown')">Shutdown</button>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="col-12">
 			<div class="ms-alert ms-outline-success info-block">
-				{{ counter }} {{ msg }}
+				{{ counter }} {{ info }}
 			</div>
 		</div>
 	</div>
@@ -41,7 +41,7 @@ LED Box
 		<div class="col-md-1 col-1 spacer-one">&nbsp;</div>
 	</div>
 
-	<div class="row">
+	<div class="row" v-show="showArrows && connected">
 		<div class="col-md-3 col-3"></div>
 		<div class="col-md-6 col-6 center-button">
 			<button class="ms-btn arrow-button ms-default" v-on:click="arrowClick('up')">
@@ -51,18 +51,13 @@ LED Box
 		<div class="col-md-3 col-3"></div>
 	</div>
 
-	<div class="row">
+	<div class="row" v-show="showArrows && connected">
 		<div class="col-md-3 col-1"></div>
 		<div class="col-md-3 col-5 center-button">
 			<button class="ms-btn arrow-button ms-default" v-on:click="arrowClick('left')">
 				<img src="%% url_for('static', filename='img/Arrow_Left.svg') %%" alt="Left" height="35" />
 			</button>
 		</div>
-		<!--<div class="col-md-2 col-2 center-button">
-		<button class="ms-btn arrow-button ms-default" data-arrow="enter" v-on:click="arrowClick('enter')">
-			<img src="{{ url_for('static', filename='img/Circle.svg') }}" alt="Enter" height="35" />
-		</button>
-		</div>-->
 		<div class="col-md-3 col-5 center-button">
 			<button class="ms-btn arrow-button ms-default" v-on:click="arrowClick('right')">
 				<img src="%% url_for('static', filename='img/Arrow_Right.svg') %%" alt="Right" height="35" />
@@ -71,7 +66,7 @@ LED Box
 		<div class="col-md-3 col-1"></div>
 	</div>
 
-	<div class="row">
+	<div class="row" v-show="showArrows && connected">
 		<div class="col-md-3 col-3"></div>
 		<div class="col-md-6 col-6 center-button">
 			<button class="ms-btn arrow-button ms-default" v-on:click="arrowClick('down')">

@@ -11,14 +11,11 @@
 		<link rel="stylesheet" href="%% url_for('static', filename='css/minstyle.io.css') %%">
 		<link rel="stylesheet" href="%% url_for('static', filename='css/style.css') %%">
 
+		<script type="text/javascript" src="%% url_for('static', filename='js/cash.min.js') %%"></script>
+
 		{% block head %}
 		{% endblock %}
 
-		<script>
-			$(function() {
-				// NOOP
-			});
-		</script>
 	</head>
 	<body class="dark">
 		<div class="ms-content">
@@ -37,13 +34,10 @@
 
 		<div class="container">
 		{% block body %}
-
 		{% endblock %}
 		</div>
 
-
 		{% block javascript %}
-	 
 		{% endblock %}
 	</body>
 </html>

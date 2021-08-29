@@ -4,6 +4,16 @@
 	height: 40px;
 }
 
+.action-button
+{
+	margin-right: 4px;
+}
+
+.special-button
+{
+	margin-right: 4px;
+}
+
 .center-button
 {
 	margin: auto 0;

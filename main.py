@@ -49,8 +49,6 @@ def handle_special_event(json_data, methods = ["GET", "POST"]):
         ledbox.stop()
     elif json_data["data"] == "random":
         ledbox.random()
-    else:
-        abort(404, "Unsuppored data")
     # socketio.emit("Response", json_data, callback = message_received)
 
 @socketio.on("ArrowEvent")
