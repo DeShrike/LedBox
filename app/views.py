@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 @app.route("/favicon.ico")
 def send_favicon():
-    return send_from_directory("img", "favicon.ico")
+    return send_from_directory("static/img", "favicon.ico")
 
 @app.route("/about")
 def about():
