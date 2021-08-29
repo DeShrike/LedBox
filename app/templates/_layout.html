@@ -8,12 +8,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1, maximum-scale=1">
 
 		<!-- See https://minstyle.io/docs/ -->
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/minstyle.io.css') }}">
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+		<link rel="stylesheet" href="%% url_for('static', filename='css/minstyle.io.css') %%">
+		<link rel="stylesheet" href="%% url_for('static', filename='css/style.css') %%">
 
-		<!-- See https://github.com/fabiospampinato/cash -->
-		<script type="text/javascript" src="{{ url_for('static', filename='js/cash.min.js') }}"></script>
-		<script type="text/javascript" src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
+		{% block head %}
+		{% endblock %}
 
 		<script>
 			$(function() {
@@ -25,13 +24,13 @@
 		<div class="ms-content">
 			<div class="ms-menu">
 			    <div class="ms-menu-logo">
-			    	<p><a href="{{ url_for('about') }}"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="LED Box" /></a></p>
+			    	<p><a href="%% url_for('about') %%"><img src="%% url_for('static', filename='img/logo.png') %%" alt="LED Box" /></a></p>
 			    </div>
 			    <div class="ms-menu-logo">
-			    	<p>{{model.title}}</p>
+			    	<p>%% model.title %%</p>
 			    </div>
 			    <div class="ms-menu-logo">
-			    	<p class="ms-text-info" id="current-action">{{model.current_action}}</p>
+			    	<p class="ms-text-info" id="current-action">%% model.current_action %%</p>
 			    </div>
 			</div>
 		</div>
@@ -42,7 +41,6 @@
 		{% endblock %}
 		</div>
 
-		<script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 		{% block javascript %}
 	 
